@@ -1,1 +1,24 @@
-h1{color: red;}
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
+
+html{box-sizing: border-box;scroll-behavior: smooth;}
+*{
+    margin:0;
+    padding:0;
+    
+}
+*::before,*::after,*{
+    box-sizing: inherit;
+}
+
+body{margin: 0; padding: 0; font-family: 'Poppins', sans-serif;font-size: 1rem;}
+.headersec {
+    background-color: #fff;
+    padding: 20px 30px;
+    box-shadow: 0px -1px 10px 0px #00000057;
+}
+.headersec ul{margin: 0; padding: 0;}
+.logo img{height: 55px}
+.navitem {    text-align: right;}
+.navitem ul li{display: inline-block;margin: 0 20px;list-style: none;}
+.navitem ul li a{color: #000;text-decoration: none;}
+.navitem ul li a:hover{color: #ffa700;}
