@@ -1,7 +1,12 @@
 import React from "react";
 import ReactDOM  from "react-dom/client";
-import logo from "./img/logo.jpg"
+import logo from "./img/logo.png"
+import Cardimg1 from "./img/card1.jpg"
+import Cardimg2 from "./img/cardimg2.jpg"
+
 import 'bootstrap/dist/css/bootstrap.css';
+import "bootstrap-icons/font/bootstrap-icons.css";
+
 
 const Header =() => {
     return (
@@ -27,6 +32,23 @@ const Header =() => {
         </div>
     );
 };
+
+const ResCard = (props) =>{
+    return(
+        <div class="col-md-3">
+            <div className="cardbox mt-5">
+                <div className="cardimg">
+                    <img src={Cardimg1} alt="logo" />
+                </div>
+                <div className="cardcontent">
+                <h3 className="mt-3 mb-3">{props.resName}</h3>
+                <h5><i class="bi bi-star"></i> 4.5 <span className="dot-divider"></span> 30-35mins</h5>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit?</p>
+                </div>
+            </div>
+        </div>
+    )
+}
 const Body =() =>{
     return (
         <div className="mainsec">
@@ -35,9 +57,16 @@ const Body =() =>{
             </div>
             <div className="cardsec">
                 <div className="container">
-                    <div className="cardbox">
-                        <h1>Card</h1>
+                    <div class="row">
+                        <ResCard resName="Punjab Gharana" resImg="" resRating=""/>
+                        <ResCard resName="KFC" resImg="" resRating=""/>
+                        <ResCard resName="Dominos" resImg="" resRating=""/>
+                        <ResCard resName="Momo Plaza" resImg="" resRating=""/>
+                        <ResCard resName="Hatari" resImg="" resRating=""/>
+                        <ResCard resName="Tandoor House" resImg="" resRating=""/>
+                        <ResCard resName="Hanglatherium" resImg="" resRating=""/>
                     </div>
+                    
                 </div>
             </div>
         </div>
