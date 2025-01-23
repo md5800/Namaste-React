@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Custom Calendar</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 5px;
+      width: 80%;
+      margin: 20px 0;
+      padding: 10px;
+      background-color: white;
+      border: 1px solid #ddd;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+    }
+    .calendar-header {
+      text-align: center;
+      margin: 20px 0;
+      width: 80%;
+      padding: 10px;
+      background-color: white;
+      border: 1px solid #ddd;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+    }
+    .navigation {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      gap: 5px;
+    }
+    .navigation button {
+      background-color: #ad0082;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.3s;
+    }
+    .navigation button:hover {
+      background-color: #c10191;
+    }
+    .navigation h2 {
+      flex: 1;
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+      margin: 0;
+    }
+    .day {
+      width: 100%;
+      aspect-ratio: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: bold;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+    .day.selected {
+      background-color: #ad0082;
+      color: white;
+      border-color: #c10191;
+      transform: scale(1.1);
+    }
+    .day:hover {
+      background-color: #ffd3f6;
+    }
+    .day.blank {
+      background-color: transparent;
+      border: none;
+      cursor: default;
+    }
+  </style>
+</head>
+<body>
+
+<div class="calendar-header">
+  <div class="navigation">
+    <button id="prev-year">&lt;&lt; Year</button>
+    <button id="prev-month">&lt; Month</button>
+    <h2 id="month-year">January 2025</h2>
+    <button id="next-month">Month &gt;</button>
+    <button id="next-year">Year &gt;&gt;</button>
+  </div>
+</div>
+<div class="calendar" id="calendar"></div>
+
+<script>
+  const calendarElement = document.getElementById('calendar');
+  const monthYearElement = document.getElementById('month-year');
+  const prevMonthButton = document.getElementById('prev-month');
+  const nextMonthButton = document.getElementById('next-month');
+  const prevYearButton = document.getElementById('prev-year');
+  const nextYearButton = document.getElementById('next-year');
+  const selectedDates = new Set();
+
+  const today = new Date();
+  let currentMonth = today.getMonth();
+  let currentYear = today.getFullYear();
+
+  // Generate calendar
+  function generateCalendar(month, year) {
+    calendarElement.innerHTML = '';
+    monthYearElement.textContent = `${new Date(year, month).toLocaleString('default', { month: 'long' })} ${year}`;
+
+    const firstDay = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+    // Fill in blanks for days before the first of the month
+    for (let i = 0; i < firstDay; i++) {
+      const blankDay = document.createElement('div');
+      blankDay.classList.add('day', 'blank');
+      calendarElement.appendChild(blankDay);
+    }
+
+    // Fill in days of the month
+    for (let day = 1; day <= daysInMonth; day++) {
+      const dayElement = document.createElement('div');
+      dayElement.classList.add('day');
+      dayElement.textContent = day;
+      dayElement.dataset.date = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+
+      // Highlight if already selected
+      if (selectedDates.has(dayElement.dataset.date)) {
+        dayElement.classList.add('selected');
+      }
+
+      dayElement.addEventListener('click', () => toggleDateSelection(dayElement));
+      calendarElement.appendChild(dayElement);
+    }
+  }
+
+  // Toggle date selection
+  function toggleDateSelection(dayElement) {
+    const date = dayElement.dataset.date;
+    if (selectedDates.has(date)) {
+      selectedDates.delete(date);
+      dayElement.classList.remove('selected');
+    } else {
+      selectedDates.add(date);
+      dayElement.classList.add('selected');
+    }
+    console.log('Selected Dates:', Array.from(selectedDates));
+  }
+
+  // Navigation handlers
+  prevMonthButton.addEventListener('click', () => {
+    currentMonth--;
+    if (currentMonth < 0) {
+      currentMonth = 11;
+      currentYear--;
+    }
+    generateCalendar(currentMonth, currentYear);
+  });
+
+  nextMonthButton.addEventListener('click', () => {
+    currentMonth++;
+    if (currentMonth > 11) {
+      currentMonth = 0;
+      currentYear++;
+    }
+    generateCalendar(currentMonth, currentYear);
+  });
+
+  prevYearButton.addEventListener('click', () => {
+    currentYear--;
+    generateCalendar(currentMonth, currentYear);
+  });
+
+  nextYearButton.addEventListener('click', () => {
+    currentYear++;
+    generateCalendar(currentMonth, currentYear);
+  });
+
+  // Initialize calendar
+  generateCalendar(currentMonth, currentYear);
+</script>
+
+</body>
+</html>
